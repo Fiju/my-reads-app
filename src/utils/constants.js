@@ -1,8 +1,8 @@
-export const SHELF_TYPES = {
-  currentlyReading: "currentlyReading",
-  read: "read",
-  wantToRead: "wantToRead"
-};
+export const SHELF_TYPES = [
+  { value: "currentlyReading", label: "Currently Reading" },
+  { value: "wantToRead", label: "Want to Read" },
+  { value: "read", label: "Read" }
+];
 
 export const SEARCH_TERMS = [
   "Android",

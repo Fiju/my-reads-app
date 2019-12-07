@@ -1,5 +1,6 @@
 import React from "react";
 import { update } from "../../utils/BooksAPI";
+import { SHELF_TYPES } from "../../utils/constants";
 
 export const Book = ({
   imageLinks = {},
@@ -31,9 +32,9 @@ export const Book = ({
             <option value="move" disabled>
               Move to...
             </option>
-            <option value="currentlyReading">Currently Reading</option>
-            <option value="wantToRead">Want to Read</option>
-            <option value="read">Read</option>
+            {SHELF_TYPES.map(shelf => (
+              <option value={shelf.value}>{shelf.label}</option>
+            ))}
             <option value="none">None</option>
           </select>
         </div>

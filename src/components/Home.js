@@ -1,15 +1,17 @@
 import React from "react";
+import { ClipLoader } from "react-spinners";
 import Book from "./Book";
 import { SHELF_TYPES } from "../utils/constants";
 import { getAll } from "../BooksAPI";
 
 class Home extends React.PureComponent {
   state = {
-    books: []
+    books: [],
+    isFetching: true
   };
 
   componentDidMount() {
-    getAll().then(books => this.setState({ books }));
+    getAll().then(books => this.setState({ books, isFetching: false }));
   }
 
   updateLocalShelf = (book, shelf) => {
@@ -19,68 +21,82 @@ class Home extends React.PureComponent {
   };
 
   render() {
-    const { books } = this.state;
+    const { books, isFetching } = this.state;
     const { history } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
-        <div className="list-books-content">
-          <div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Currently Reading</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {books
-                    .filter(book => book.shelf === SHELF_TYPES.currentlyReading)
-                    .map(book => (
-                      <li>
-                        <Book
-                          {...book}
-                          updateLocalShelf={this.updateLocalShelf}
-                        />
-                      </li>
-                    ))}
-                </ol>
+        {isFetching ? (
+          <ClipLoader
+            size={150}
+            loading={true}
+            css={{
+              display: "block",
+              margin: "0 auto",
+              borderColor: "#2e7c31"
+            }}
+          />
+        ) : (
+          <div className="list-books-content">
+            <div>
+              <div className="bookshelf">
+                <h2 className="bookshelf-title">Currently Reading</h2>
+                <div className="bookshelf-books">
+                  <ol className="books-grid">
+                    {books
+                      .filter(
+                        book => book.shelf === SHELF_TYPES.currentlyReading
+                      )
+                      .map(book => (
+                        <li>
+                          <Book
+                            {...book}
+                            updateLocalShelf={this.updateLocalShelf}
+                          />
+                        </li>
+                      ))}
+                  </ol>
+                </div>
               </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Want to Read</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {books
-                    .filter(book => book.shelf === SHELF_TYPES.wantToRead)
-                    .map(book => (
-                      <li>
-                        <Book
-                          {...book}
-                          updateLocalShelf={this.updateLocalShelf}
-                        />
-                      </li>
-                    ))}
-                </ol>
+              <div className="bookshelf">
+                <h2 className="bookshelf-title">Want to Read</h2>
+                <div className="bookshelf-books">
+                  <ol className="books-grid">
+                    {books
+                      .filter(book => book.shelf === SHELF_TYPES.wantToRead)
+                      .map(book => (
+                        <li>
+                          <Book
+                            {...book}
+                            updateLocalShelf={this.updateLocalShelf}
+                          />
+                        </li>
+                      ))}
+                  </ol>
+                </div>
               </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Read</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {books
-                    .filter(book => book.shelf === SHELF_TYPES.read)
-                    .map(book => (
-                      <li>
-                        <Book
-                          {...book}
-                          updateLocalShelf={this.updateLocalShelf}
-                        />
-                      </li>
-                    ))}
-                </ol>
+              <div className="bookshelf">
+                <h2 className="bookshelf-title">Read</h2>
+                <div className="bookshelf-books">
+                  <ol className="books-grid">
+                    {books
+                      .filter(book => book.shelf === SHELF_TYPES.read)
+                      .map(book => (
+                        <li>
+                          <Book
+                            {...book}
+                            updateLocalShelf={this.updateLocalShelf}
+                          />
+                        </li>
+                      ))}
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="open-search">
           <button onClick={() => history.push("/search")}>Add a book</button>
         </div>
@@ -88,65 +104,5 @@ class Home extends React.PureComponent {
     );
   }
 }
-
-// export default ({ showSearch, history }) => {
-//   const [books, isFetching] = useShelvedBooks();
-//   return (
-//     <div className="list-books">
-//       <div className="list-books-title">
-//         <h1>MyReads</h1>
-//       </div>
-//       <div className="list-books-content">
-//         <div>
-//           <div className="bookshelf">
-//             <h2 className="bookshelf-title">Currently Reading</h2>
-//             <div className="bookshelf-books">
-//               <ol className="books-grid">
-//                 {books
-//                   .filter(book => book.shelf === SHELF_TYPES.currentlyReading)
-//                   .map(book => (
-//                     <li>
-//                       <Book {...book} />
-//                     </li>
-//                   ))}
-//               </ol>
-//             </div>
-//           </div>
-//           <div className="bookshelf">
-//             <h2 className="bookshelf-title">Want to Read</h2>
-//             <div className="bookshelf-books">
-//               <ol className="books-grid">
-//                 {books
-//                   .filter(book => book.shelf === SHELF_TYPES.wantToRead)
-//                   .map(book => (
-//                     <li>
-//                       <Book {...book} />
-//                     </li>
-//                   ))}
-//               </ol>
-//             </div>
-//           </div>
-//           <div className="bookshelf">
-//             <h2 className="bookshelf-title">Read</h2>
-//             <div className="bookshelf-books">
-//               <ol className="books-grid">
-//                 {books
-//                   .filter(book => book.shelf === SHELF_TYPES.read)
-//                   .map(book => (
-//                     <li>
-//                       <Book {...book} />
-//                     </li>
-//                   ))}
-//               </ol>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//       <div className="open-search">
-//         <button onClick={() => history.push("/search")}>Add a book</button>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default Home;

@@ -34,14 +34,14 @@ class Home extends React.PureComponent {
           <div className="list-books-content">
             <div>
               {SHELF_TYPES.map(shelf => (
-                <div className="bookshelf">
+                <div key={shelf.value} className="bookshelf">
                   <h2 className="bookshelf-title">{shelf.label}</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {books
                         .filter(book => book.shelf === shelf.value)
                         .map(book => (
-                          <li>
+                          <li key={book.id}>
                             <Book
                               {...book}
                               updateLocalShelf={this.updateLocalShelf}

@@ -27,7 +27,7 @@ class Search extends React.PureComponent {
         });
         this.setState({ searchedBooks, isFetching: false });
       });
-    }
+    } else this.setState({ searchedBooks: [], isFetching: false });
   };
 
   updateLocalShelf = (book, shelf) => {
@@ -50,7 +50,6 @@ class Search extends React.PureComponent {
               type="text"
               placeholder="Search by title or author"
               onChange={this.onSearch}
-              // onChange={e => setQuery(e.target.value.trim())}
             />
           </div>
         </div>
@@ -59,8 +58,8 @@ class Search extends React.PureComponent {
         ) : (
           <div className="search-books-results">
             <ol className="books-grid">
-              {searchedBooks.map((book, bookIndex) => (
-                <li key={bookIndex}>
+              {searchedBooks.map(book => (
+                <li key={book.id}>
                   <Book {...book} updateLocalShelf={this.updateLocalShelf} />
                 </li>
               ))}

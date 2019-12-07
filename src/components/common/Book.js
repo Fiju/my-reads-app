@@ -33,7 +33,9 @@ export const Book = ({
               Move to...
             </option>
             {SHELF_TYPES.map(shelf => (
-              <option value={shelf.value}>{shelf.label}</option>
+              <option key={shelf.value} value={shelf.value}>
+                {shelf.label}
+              </option>
             ))}
             <option value="none">None</option>
           </select>

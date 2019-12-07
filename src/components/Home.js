@@ -1,8 +1,7 @@
 import React from "react";
-import { ClipLoader } from "react-spinners";
-import Book from "./Book";
+import { Book, Loader } from "./common";
 import { SHELF_TYPES } from "../utils/constants";
-import { getAll } from "../BooksAPI";
+import { getAll } from "../utils/BooksAPI";
 
 class Home extends React.PureComponent {
   state = {
@@ -29,15 +28,7 @@ class Home extends React.PureComponent {
           <h1>MyReads</h1>
         </div>
         {isFetching ? (
-          <ClipLoader
-            size={150}
-            loading={true}
-            css={{
-              display: "block",
-              margin: "0 auto",
-              borderColor: "#2e7c31"
-            }}
-          />
+          <Loader />
         ) : (
           <div className="list-books-content">
             <div>

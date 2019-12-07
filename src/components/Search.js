@@ -1,7 +1,6 @@
 import React from "react";
-import { ClipLoader } from "react-spinners";
-import Book from "./Book";
-import { getAll, search } from "../BooksAPI";
+import { Book, Loader } from "./common";
+import { getAll, search } from "../utils/BooksAPI";
 import { isSearchQueryValid } from "../utils/search-query-validation";
 
 class Search extends React.PureComponent {
@@ -56,15 +55,7 @@ class Search extends React.PureComponent {
           </div>
         </div>
         {isFetching ? (
-          <ClipLoader
-            size={150}
-            loading={true}
-            css={{
-              display: "block",
-              margin: "20% auto",
-              borderColor: "#2e7c31"
-            }}
-          />
+          <Loader />
         ) : (
           <div className="search-books-results">
             <ol className="books-grid">

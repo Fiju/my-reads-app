@@ -1,7 +1,7 @@
 import React from "react";
-import { update } from "../BooksAPI";
+import { update } from "../../utils/BooksAPI";
 
-export default ({
+export const Book = ({
   imageLinks = {},
   title,
   authors = [],

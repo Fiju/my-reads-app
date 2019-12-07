@@ -1,9 +1,9 @@
 import React from "react";
 
-export default ({ onBack }) => (
+export default ({ onBack, history }) => (
   <div className="search-books">
     <div className="search-books-bar">
-      <button className="close-search" onClick={onBack}>
+      <button className="close-search" onClick={() => history.push("/")}>
         Close
       </button>
       <div className="search-books-input-wrapper">

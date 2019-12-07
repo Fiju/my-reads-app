@@ -1,6 +1,5 @@
 import React from "react";
-import Home from "./components/Home";
-import Search from "./components/Search";
+import Routes from "./routes";
 // import * as BooksAPI from './BooksAPI'
 import "./App.css";
 
@@ -18,11 +17,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <Search onBack={() => this.setState({ showSearchPage: false })} />
-        ) : (
-          <Home showSearch={() => this.setState({ showSearchPage: true })} />
-        )}
+        <Routes />
       </div>
     );
   }

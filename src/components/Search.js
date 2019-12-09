@@ -16,18 +16,24 @@ class Search extends React.PureComponent {
   }
 
   onSearch = e => {
-    if (isSearchQueryValid(e.target.value)) {
+    this.setState({ query: e.target.value });
+    if (isSearchQueryValid(e.target.value.trim())) {
       this.setState({ isFetching: true });
 
       //  Fetching searched books and added shelf to them
       search(e.target.value.trim()).then(searchedBooks => {
-        searchedBooks.forEach(book => {
-          const shelvedBook = this.state.shelvedBooks.find(
-            b => b.id === book.id
-          );
-          if (shelvedBook) book.shelf = shelvedBook.shelf;
+        //  If no response received then skip
+        searchedBooks.length &&
+          searchedBooks.forEach(book => {
+            const shelvedBook = this.state.shelvedBooks.find(
+              b => b.id === book.id
+            );
+            if (shelvedBook) book.shelf = shelvedBook.shelf;
+          });
+        this.setState({
+          searchedBooks: searchedBooks.length ? searchedBooks : [],
+          isFetching: false
         });
-        this.setState({ searchedBooks, isFetching: false });
       });
     } else this.setState({ searchedBooks: [], isFetching: false });
   };
@@ -40,7 +46,7 @@ class Search extends React.PureComponent {
   };
 
   render() {
-    const { searchedBooks, isFetching } = this.state;
+    const { searchedBooks, isFetching, query } = this.state;
     const { history } = this.props;
     return (
       <div className="search-books">
@@ -53,6 +59,7 @@ class Search extends React.PureComponent {
               type="text"
               placeholder="Search by title or author"
               onChange={this.onSearch}
+              value={query}
             />
           </div>
         </div>

@@ -14,6 +14,7 @@ class Home extends React.PureComponent {
   }
 
   updateLocalShelf = (book, shelf) => {
+    //  Updating local shelf
     const booksCopy = [...this.state.books];
     booksCopy.find(b => book.id === b.id).shelf = shelf;
     this.setState({ books: booksCopy });

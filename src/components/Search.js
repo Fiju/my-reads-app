@@ -6,9 +6,9 @@ import { isSearchQueryValid } from "../utils/search-query-validation";
 class Search extends React.PureComponent {
   state = {
     query: "",
-    searchedBooks: [],
-    shelvedBooks: [],
-    isFetching: false
+    searchedBooks: [], //  Books returned after searching over api call
+    shelvedBooks: [], //  Books already added to shelves
+    isFetching: false //  Status determining if network request in progress
   };
 
   componentDidMount() {
@@ -18,6 +18,8 @@ class Search extends React.PureComponent {
   onSearch = e => {
     if (isSearchQueryValid(e.target.value)) {
       this.setState({ isFetching: true });
+
+      //  Fetching searched books and added shelf to them
       search(e.target.value.trim()).then(searchedBooks => {
         searchedBooks.forEach(book => {
           const shelvedBook = this.state.shelvedBooks.find(
@@ -31,6 +33,7 @@ class Search extends React.PureComponent {
   };
 
   updateLocalShelf = (book, shelf) => {
+    //  Updating local shelf
     const booksCopy = [...this.state.searchedBooks];
     booksCopy.find(b => book.id === b.id).shelf = shelf;
     this.setState({ searchedBooks: booksCopy });
